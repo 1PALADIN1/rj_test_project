@@ -38,6 +38,10 @@
         {
         }
 
+        public virtual void OnStun()
+        {
+        }
+
         public virtual void OnDie()
         {
         }

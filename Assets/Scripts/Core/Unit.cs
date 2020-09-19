@@ -1,6 +1,6 @@
 ﻿using System;
 using Conf;
-using Logic;
+using UnityEngine;
 using View;
 
 namespace Core
@@ -12,12 +12,17 @@ namespace Core
             Spawn,
             Turn,
             Move,
+            Stun,
             Die
         }
 
         private readonly UnitInfo _info;
         private readonly UnitLogic _logic;
         private readonly Battle _battle;
+
+        private readonly int _stunMaxTurns;
+        private readonly int _removeStunDamage;
+        private int _stunTurnsLeft;
         
         private State _state;
         
@@ -50,6 +55,9 @@ namespace Core
             View = view;
             _battle = battle;
             _state = State.Spawn;
+
+            _removeStunDamage = 100;
+            _stunMaxTurns = 3;
         }
 
         public void Tick()
@@ -73,6 +81,14 @@ namespace Core
                     }
                     _logic.OnTurn();
                     break;
+                case State.Stun:
+                    _stunTurnsLeft--;
+                    Debug.LogError($"Minus stun. Turns left: {_stunTurnsLeft}");
+                    if (_stunTurnsLeft <= 0)
+                    {
+                        RemoveStun();
+                    }
+                    break;
                 case State.Die:
                     _logic.OnDie();
                     break;
@@ -83,9 +99,19 @@ namespace Core
         {
             return Health > 0;
         }
+
+        public bool IsStunned()
+        {
+            return _state == State.Stun;
+        }
         
         public void AddMana(int mana)
         {
+            if (IsStunned())
+            {
+                return;
+            }
+            
             mana = _logic.OnBeforeManaChange(mana);
             Mana = Math.Min(MaxMana, Mana + mana);
         }
@@ -106,6 +132,12 @@ namespace Core
         {
             damage = _logic.OnDamage(damage);
             Health = Math.Max(0, Health - damage);
+
+            if (IsStunned() && damage > _removeStunDamage)
+            {
+                RemoveStun();
+            }
+            
             if (!IsAlive())
             {
                 _state = State.Die;
@@ -117,6 +149,20 @@ namespace Core
             _destX = x;
             _destY = y;
             _state = State.Move;
+        }
+        
+        public void AddStun()
+        {
+            Debug.LogError($"Add stun!");
+            _logic.OnStun();
+            _stunTurnsLeft = _stunMaxTurns;
+            _state = State.Stun;
+        }
+
+        private void RemoveStun()
+        {
+            Debug.LogError($"Remove stun!");
+            _state = State.Turn;
         }
     }
 }

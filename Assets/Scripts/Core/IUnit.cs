@@ -19,5 +19,6 @@
         void Heal(int heal);
         void Damage(int damage);
         void MoveTo(int x, int y);
+        void AddStun();
     }
 }
