@@ -35,13 +35,16 @@ namespace Logic
             Unit.AddMana(_manaRegen);
         }
     
-        public override void OnAbility()
+        public override bool OnAbility()
         {
             var target = Core.GetNearestEnemy(Unit);
             if (target != null && target.IsAlive())
             {
                 target.Damage(_abilityDamageRate * _damage);
+                return true;
             }
+            
+            return false;
         }
     }
 }

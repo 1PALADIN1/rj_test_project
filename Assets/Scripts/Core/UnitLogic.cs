@@ -34,8 +34,9 @@
         {
         }
 
-        public virtual void OnAbility()
+        public virtual bool OnAbility()
         {
+            return true;
         }
 
         public virtual void OnStun()

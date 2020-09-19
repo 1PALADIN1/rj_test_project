@@ -72,9 +72,8 @@ namespace Core
                     _state = State.Turn;
                     break;
                 case State.Turn:
-                    if (Mana == MaxMana)
+                    if (Mana == MaxMana && _logic.OnAbility())
                     {
-                        _logic.OnAbility();
                         SubMana(MaxMana);
                         break;
                     }
@@ -110,7 +109,7 @@ namespace Core
                 return;
             }
             
-            mana = _logic.OnBeforeManaChange(mana);
+            mana = _logic.OnBeforeManaChange(Mana >= MaxMana ? 0 : mana);
             Mana = Math.Min(MaxMana, Mana + mana);
         }
         
