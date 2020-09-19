@@ -36,7 +36,7 @@ namespace Logic
             Unit.AddMana(_manaRegen);
         }
     
-        public override void OnAbility()
+        public override bool OnAbility()
         {
             var target = Core.GetNearestEnemy(Unit);
             if (target != null && target.IsAlive())
@@ -51,7 +51,11 @@ namespace Logic
                 {
                     target.AddStun();
                 }
+
+                return true;
             }
+
+            return false;
         }
 	
         public override int OnDamage(int damage)
