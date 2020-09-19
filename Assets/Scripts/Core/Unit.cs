@@ -1,6 +1,5 @@
 ﻿using System;
 using Conf;
-using UnityEngine;
 using View;
 
 namespace Core
@@ -83,7 +82,6 @@ namespace Core
                     break;
                 case State.Stun:
                     _stunTurnsLeft--;
-                    Debug.LogError($"Minus stun. Turns left: {_stunTurnsLeft}");
                     if (_stunTurnsLeft <= 0)
                     {
                         RemoveStun();
@@ -133,7 +131,7 @@ namespace Core
             damage = _logic.OnDamage(damage);
             Health = Math.Max(0, Health - damage);
 
-            if (IsStunned() && damage > _removeStunDamage)
+            if (IsStunned() && damage >= _removeStunDamage)
             {
                 RemoveStun();
             }
@@ -153,7 +151,6 @@ namespace Core
         
         public void AddStun()
         {
-            Debug.LogError($"Add stun!");
             _logic.OnStun();
             _stunTurnsLeft = _stunMaxTurns;
             _state = State.Stun;
@@ -161,7 +158,6 @@ namespace Core
 
         private void RemoveStun()
         {
-            Debug.LogError($"Remove stun!");
             _state = State.Turn;
         }
     }

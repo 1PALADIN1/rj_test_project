@@ -39,9 +39,18 @@ namespace Logic
         public override void OnAbility()
         {
             var target = Core.GetNearestEnemy(Unit);
-            if (target != null && target.IsAlive() && UnityEngine.Random.Range(0, 100) < _killChance)
+            if (target != null && target.IsAlive())
             {
-                target.Damage(target.MaxHealth);
+                var shouldKillTarget = UnityEngine.Random.Range(0, 100) < _killChance;
+
+                if (shouldKillTarget)
+                {
+                    target.Damage(target.MaxHealth);
+                }
+                else
+                {
+                    target.AddStun();
+                }
             }
         }
 	
