@@ -4,6 +4,7 @@
     {
         public DemoBattleInfo()
         {
+            AddBlue(new MeleeMonkUnitInfo(), 36, 35);
             AddBlue(new MeleeHedgehogUnitInfo(), 38, 35);
             AddBlue(new MeleeAssassinUnitInfo(), 40, 30);
             AddBlue(new MeleeAssassinUnitInfo(), 42, 30);
@@ -13,8 +14,9 @@
             AddBlue(new MeleeAssassinUnitInfo(), 50, 30);
             AddBlue(new MeleeAssassinUnitInfo(), 52, 30);
             AddBlue(new MeleeHedgehogUnitInfo(), 54, 35);
+            AddBlue(new MeleeMonkUnitInfo(), 56, 35);
             
-            
+            AddRed(new MeleeMonkUnitInfo(),    40, 48);
             AddRed(new RangeArcherUnitInfo(),    42, 48);
             AddRed(new MeleeSoldierUnitInfo(),   44, 52);
             AddRed(new MeleeAssassinUnitInfo(),  46, 50);
@@ -22,6 +24,7 @@
             AddRed(new MeleeAssassinUnitInfo(),  50, 50);
             AddRed(new MeleeSoldierUnitInfo(),   52, 52);
             AddRed(new RangeArcherUnitInfo(),    54, 48);
+            AddRed(new MeleeMonkUnitInfo(),    56, 48);
         }
     }
 }

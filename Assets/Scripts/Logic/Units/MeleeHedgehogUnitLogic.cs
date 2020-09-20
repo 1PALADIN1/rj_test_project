@@ -12,6 +12,7 @@ namespace Logic
         private readonly int _abilityDamageIncreaseStep;
         private readonly int _damage;
         private readonly int _manaRegen;
+        private readonly int _maxMana;
         
         private int _abilityDamage;
     
@@ -24,6 +25,7 @@ namespace Logic
             _healValue = info.HealValue;
             _attackDistance = info.AttackDistance;
             _abilityDamageIncreaseStep = info.AbilityDamageIncreaseStep;
+            _maxMana = info.MaxMana;
         }
     
         public override void OnTurn()
@@ -67,7 +69,7 @@ namespace Logic
     
         public override int OnBeforeManaChange(int delta)
         {
-            if (delta > 0)
+            if (delta > 0 && Unit.Mana < _maxMana)
             {
                 _abilityDamage += _abilityDamageIncreaseStep;
             }
