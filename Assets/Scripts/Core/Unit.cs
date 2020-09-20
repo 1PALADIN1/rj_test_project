@@ -109,7 +109,7 @@ namespace Core
                 return;
             }
             
-            mana = _logic.OnBeforeManaChange(Mana >= MaxMana ? 0 : mana);
+            mana = _logic.OnBeforeManaChange(mana);
             Mana = Math.Min(MaxMana, Mana + mana);
         }
         
