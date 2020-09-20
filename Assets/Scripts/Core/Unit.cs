@@ -72,7 +72,7 @@ namespace Core
                     _state = State.Turn;
                     break;
                 case State.Turn:
-                    if (Mana == MaxMana && _logic.OnAbility())
+                    if (Mana != 0 && Mana == MaxMana && _logic.OnAbility())
                     {
                         SubMana(MaxMana);
                         break;
@@ -80,14 +80,12 @@ namespace Core
                     _logic.OnTurn();
                     break;
                 case State.Stun:
+                    _logic.OnStun();
                     _stunTurnsLeft--;
                     if (_stunTurnsLeft <= 0)
                     {
                         RemoveStun();
                     }
-                    break;
-                case State.Die:
-                    _logic.OnDie();
                     break;
             }
         }
@@ -97,11 +95,6 @@ namespace Core
             return Health > 0;
         }
 
-        public bool IsStunned()
-        {
-            return _state == State.Stun;
-        }
-        
         public void AddMana(int mana)
         {
             if (IsStunned())
@@ -138,6 +131,7 @@ namespace Core
             if (!IsAlive())
             {
                 _state = State.Die;
+                _logic.OnDie();
             }
         }
 
@@ -150,9 +144,13 @@ namespace Core
         
         public void AddStun()
         {
-            _logic.OnStun();
             _stunTurnsLeft = _stunMaxTurns;
             _state = State.Stun;
+        }
+        
+        private bool IsStunned()
+        {
+            return _state == State.Stun;
         }
 
         private void RemoveStun()

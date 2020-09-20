@@ -14,6 +14,7 @@ namespace Core
                 case MeleeAssassinUnitInfo i: return new MeleeAssassinUnitLogic(i, unit, core);
                 case MeleeHedgehogUnitInfo i: return new MeleeHedgehogUnitLogic(i, unit, core);
                 case RangeArcherUnitInfo i: return new RangeArcherUnitLogic(i, unit, core);
+                case MeleeMonkUnitInfo i: return new MeleeMonkUnitLogic(i, unit, core);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(info), info, null);
             }
